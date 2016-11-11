@@ -11,6 +11,22 @@
             ],
             "isBuildCommand": true,
             "problemMatcher": "$msCompile"
+        },
+         {
+            "taskName": "build",
+            "args": [
+                "${workspaceRoot}src/CircuitBreaker.Tests/project.json"
+            ],
+            "isBuildCommand": true,
+            "problemMatcher": "$msCompile"
+        },
+         {
+            "taskName": "build",
+            "args": [
+                "${workspaceRoot}src/CircuitBreaker/project.json"
+            ],
+            "isBuildCommand": true,
+            "problemMatcher": "$msCompile"
         }
     ]
 }
