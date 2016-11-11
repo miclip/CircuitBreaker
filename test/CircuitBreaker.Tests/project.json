@@ -1,13 +1,18 @@
 {
   "version": "1.0.0-*",
+  "testRunner": "xunit",
   "buildOptions": {
     "debugType": "portable",
     "emitEntryPoint": false
   },
   "dependencies": {
-    "CircuitBreaker": "1.0.0"
+    
     },
-  
+  "xunit":"2.1.0",
+  "dotnet-test-xunit": "1.0.0-rc2-192208-24",
+  "CircuitBreaker": {
+    "target": "project"
+  },
   "frameworks": {
     "netcoreapp1.0": {
       "dependencies": {

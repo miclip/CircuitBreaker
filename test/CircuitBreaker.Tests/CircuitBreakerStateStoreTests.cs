@@ -2,7 +2,7 @@
 
 namespace CircuitBreaker.Tests
 {
-    public class UnitTests
+    public class CircuitBreakerStateStoreTests
     {
        
     }
