@@ -16,4 +16,4 @@ script:
   - dotnet new
   - dotnet restore
   - dotnet --verbose run a b
-- popd
+  - popd
