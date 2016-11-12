@@ -53,11 +53,11 @@ namespace CircuitBreaker.Tests
         [Fact]
         public void GetStore_Reset() 
         {
+             var tripException = new Exception("Force Trip of Circuit Breaker");
+            var priorToTrip = DateTime.UtcNow;
             var store = new InMemoryCircuitBreakerStateStore();
             Assert.NotNull(store);
-            Assert.False(store.IsClosed);
-            var tripException = new Exception("Force Trip of Circuit Breaker");
-            var priorToTrip = DateTime.UtcNow;
+            Assert.False(store.IsClosed);           
 
             store.Trip(tripException);
 

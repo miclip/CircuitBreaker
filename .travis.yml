@@ -14,4 +14,3 @@ script:
   - dotnet restore
   - dotnet --verbose build ./*/*/project.json
   - dotnet --verbose test ./test/*/project.json
-  - popd
