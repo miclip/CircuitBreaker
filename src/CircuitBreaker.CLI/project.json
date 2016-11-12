@@ -5,7 +5,9 @@
     "emitEntryPoint": true
   },
   "dependencies": {
-    "CircuitBreaker": "1.0.0"
+    "CircuitBreaker": {
+    "target": "project"
+  }
   },
   "frameworks": {
     "netcoreapp1.0": {

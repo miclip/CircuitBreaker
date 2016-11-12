@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}src/CircuitBreaker.CLI/bin/Debug/netcoreapp1.0/CircuitBreaker.dll",
+            "program": "${workspaceRoot}/src/CircuitBreaker.CLI/bin/Debug/netcoreapp1.0/CircuitBreaker.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "externalConsole": false,
