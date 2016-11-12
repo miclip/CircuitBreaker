@@ -8,9 +8,9 @@ namespace CircuitBreaker
         private Exception _lastException;
         private DateTime _lastStateChanged;
         private CircuitBreakerStateEnum _state;
-        private readonly object _lock = new object();
+        private readonly object _lockSync = new object();
 
-        bool ICircuitBreakerStateStore.IsClosed
+        public bool IsClosed
         {
             get
             {
@@ -18,7 +18,7 @@ namespace CircuitBreaker
             }
         }
 
-        Exception ICircuitBreakerStateStore.LastException
+        public Exception LastException
         {
             get
             {
@@ -26,7 +26,7 @@ namespace CircuitBreaker
             }
         }
 
-        DateTime ICircuitBreakerStateStore.LastStateChangedDateUtc
+        public DateTime LastStateChangedDateUtc
         {
             get
             {
@@ -34,7 +34,7 @@ namespace CircuitBreaker
             }
         }
 
-        CircuitBreakerStateEnum ICircuitBreakerStateStore.State
+        public CircuitBreakerStateEnum State
         {
             get
             {
@@ -42,18 +42,18 @@ namespace CircuitBreaker
             }
         }
 
-        void ICircuitBreakerStateStore.HalfOpen()
+        public void HalfOpen()
         {
-          lock(_lock)
+          lock(_lockSync)
           {
             _state = CircuitBreakerStateEnum.HalfOpen;
             _lastStateChanged = DateTime.UtcNow;
           }
         }
 
-        void ICircuitBreakerStateStore.Reset()
+        public void Reset()
         {
-          lock(_lock)
+          lock(_lockSync)
           {
             _lastException = null;
             _lastStateChanged = DateTime.UtcNow;
@@ -61,9 +61,9 @@ namespace CircuitBreaker
           }
         }
 
-        void ICircuitBreakerStateStore.Trip(Exception ex)
+        public void Trip(Exception ex)
         {
-          lock(_lock)
+          lock(_lockSync)
           {
             _lastException = ex;
             _state = CircuitBreakerStateEnum.Closed;

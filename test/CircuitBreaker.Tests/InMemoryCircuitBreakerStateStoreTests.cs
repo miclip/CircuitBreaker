@@ -1,4 +1,5 @@
 ﻿using System;
+using CircuitBreaker.Interfaces;
 using Xunit;
 
 namespace CircuitBreaker.Tests
