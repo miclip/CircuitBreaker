@@ -1,5 +1,4 @@
 ﻿using System;
-using CircuitBreaker.Interfaces;
 using Xunit;
 
 namespace CircuitBreaker.Tests
@@ -14,25 +13,26 @@ namespace CircuitBreaker.Tests
         }
 
         [Fact]
-        public void GetStore_IsOpen() 
+        public void GetStore_IsClosed() 
         {
             var store = new InMemoryCircuitBreakerStateStore();
             Assert.NotNull(store);
-            Assert.False(store.IsClosed);
+            Assert.True(store.IsClosed);
         }
 
         [Fact]
         public void GetStore_Trip() 
         {
-            var store = new InMemoryCircuitBreakerStateStore();
-            Assert.NotNull(store);
-            Assert.False(store.IsClosed);
             var tripException = new Exception("Force Trip of Circuit Breaker");
             var priorToTrip = DateTime.UtcNow;
+            var store = new InMemoryCircuitBreakerStateStore();
+            Assert.NotNull(store);
+            Assert.True(store.IsClosed);
+            
 
             store.Trip(tripException);
 
-            Assert.True(store.IsClosed);
+            Assert.False(store.IsClosed);
             Assert.Equal(tripException,store.LastException);
             Assert.True(priorToTrip < store.LastStateChangedDateUtc);
         }
@@ -42,7 +42,7 @@ namespace CircuitBreaker.Tests
         {
             var store = new InMemoryCircuitBreakerStateStore();
             Assert.NotNull(store);
-            Assert.False(store.IsClosed);
+            Assert.True(store.IsClosed);
             
             store.HalfOpen();
 
@@ -57,17 +57,17 @@ namespace CircuitBreaker.Tests
             var priorToTrip = DateTime.UtcNow;
             var store = new InMemoryCircuitBreakerStateStore();
             Assert.NotNull(store);
-            Assert.False(store.IsClosed);           
+            Assert.True(store.IsClosed);           
 
             store.Trip(tripException);
 
-            Assert.True(store.IsClosed);
+            Assert.False(store.IsClosed);
             Assert.Equal(tripException,store.LastException);
             Assert.True(priorToTrip < store.LastStateChangedDateUtc);
 
             store.Reset();
 
-            Assert.False(store.IsClosed);
+            Assert.True(store.IsClosed);
         }
     }
 }

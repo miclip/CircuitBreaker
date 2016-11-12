@@ -5,6 +5,9 @@
     "emitEntryPoint": true
   },
   "dependencies": {
+    "Microsoft.Extensions.Logging": "1.0.0.*",
+    "Microsoft.Extensions.Logging.Console": "1.0.0.*",
+    "Microsoft.Extensions.Logging.Debug": "1.0.0.*",
     "CircuitBreaker": {
     "target": "project"
   }

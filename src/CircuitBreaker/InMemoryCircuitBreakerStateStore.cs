@@ -7,7 +7,7 @@ namespace CircuitBreaker
     {
         private Exception _lastException;
         private DateTime _lastStateChanged;
-        private CircuitBreakerStateEnum _state;
+        private CircuitBreakerStateEnum _state = CircuitBreakerStateEnum.Closed;
         private readonly object _lockSync = new object();
 
         public bool IsClosed
@@ -57,7 +57,7 @@ namespace CircuitBreaker
           {
             _lastException = null;
             _lastStateChanged = DateTime.UtcNow;
-            _state = CircuitBreakerStateEnum.Open;
+            _state = CircuitBreakerStateEnum.Closed;
           }
         }
 
@@ -66,7 +66,7 @@ namespace CircuitBreaker
           lock(_lockSync)
           {
             _lastException = ex;
-            _state = CircuitBreakerStateEnum.Closed;
+            _state = CircuitBreakerStateEnum.Open;
             _lastStateChanged = DateTime.UtcNow;
           }
 
