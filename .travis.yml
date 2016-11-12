@@ -11,6 +11,7 @@ matrix:
       dotnet: 1.0.0-preview2-003121
 
 script:
+  - dotnet restore
   - dotnet --verbose build ./*/*/project.json
   - dotnet --verbose test ./test/*/project.json
   - popd
