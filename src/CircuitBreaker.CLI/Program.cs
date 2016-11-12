@@ -37,7 +37,7 @@ namespace CircuitBreaker.CLI
                 }
                 catch (CircuitBreakerOpenException openEx)
                 {
-                    logger.LogInformation("HalfOpen Exception caught, circuit is open: {0}", breaker.IsOpen);
+                    logger.LogInformation("Half Open Exception caught, circuit is open: {0}", breaker.IsOpen);
                     Thread.Sleep(2000);
                 }
                 catch (System.Exception)
