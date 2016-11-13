@@ -35,7 +35,7 @@ namespace CircuitBreaker.CLI
                 {
                     breaker.ExecuteAction(httpAction);
                 }
-                catch (CircuitBreakerOpenException openEx)
+                catch (CircuitBreakerOpenException)
                 {
                     logger.LogInformation("Half Open Exception caught, circuit is open: {0}", breaker.IsOpen);
                     Thread.Sleep(2000);
