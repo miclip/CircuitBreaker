@@ -60,6 +60,27 @@ namespace CircuitBreaker.Tests
       }
 
       [Fact]
+      public void OperationTimeoutThenIgnoreFailure() 
+      {
+          var breaker = new CircuitBreaker(BreakerTimeout);
+          breaker.AddIgnoreExceptions(typeof(TimeoutException));
+          try
+          {
+            breaker.ExecuteAction(TimeoutAction);
+            Assert.True(true);
+          }
+          catch(CircuitBreakerOpenException openEx)
+          {
+             throw openEx;
+          }
+          catch (System.Exception ex)
+          {
+            Assert.NotNull(ex);
+            Assert.True(breaker.IsClosed);            
+          }
+      }
+
+       [Fact]
       public void OperationTimeoutThenFailure() 
       {
           var breaker = new CircuitBreaker(BreakerTimeout);
@@ -75,15 +96,20 @@ namespace CircuitBreaker.Tests
           catch (System.Exception ex)
           {
             Assert.NotNull(ex);
-            try
+            Assert.True(breaker.IsOpen);
+            if(breaker.IsClosed)
             {
-              breaker.ExecuteAction(TimeoutAction);
-              Assert.True(false,"Expects CircuitBreakerOpenException");
+              try
+              {
+                breaker.ExecuteAction(TimeoutAction);
+                Assert.True(false,"Expects CircuitBreakerOpenException");
+              }
+              catch (CircuitBreakerOpenException openEx)
+              {
+                Assert.IsType<TimeoutException>(openEx.InnerException);
+              }
             }
-            catch (CircuitBreakerOpenException openEx)
-            {
-              Assert.IsType<TimeoutException>(openEx.InnerException);
-            }
+            
             
           }
       }

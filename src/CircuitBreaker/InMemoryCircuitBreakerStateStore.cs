@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using CircuitBreaker.Interfaces;
 
 namespace CircuitBreaker
@@ -9,6 +10,9 @@ namespace CircuitBreaker
         private DateTime _lastStateChanged;
         private CircuitBreakerStateEnum _state = CircuitBreakerStateEnum.Closed;
         private readonly object _lockSync = new object();
+
+        private readonly List<Type> _limitListExceptions = new List<Type>();
+        private readonly List<Type> _ignoreListExceptions = new List<Type>();
 
         public bool IsClosed
         {
@@ -42,6 +46,25 @@ namespace CircuitBreaker
             }
         }
 
+        public void AddIgnoreExceptions(params Type[] exceptionTypes)
+        {
+            if(exceptionTypes==null)
+             throw new ArgumentNullException("exceptionTypes");
+
+            _ignoreListExceptions.AddRange(exceptionTypes);
+        }
+
+        public void RemoveIgnoreExceptions(params Type[] exceptionTypes)
+        {
+            if(exceptionTypes==null)
+             throw new ArgumentNullException("exceptionTypes");
+             
+            foreach(var exceptionType in exceptionTypes)
+            {
+                _ignoreListExceptions.Remove(exceptionType);
+            }
+        }
+
         public void HalfOpen()
         {
           lock(_lockSync)
@@ -63,12 +86,15 @@ namespace CircuitBreaker
 
         public void Trip(Exception ex)
         {
-          lock(_lockSync)
-          {
-            _lastException = ex;
-            _state = CircuitBreakerStateEnum.Open;
-            _lastStateChanged = DateTime.UtcNow;
-          }
+            if(_ignoreListExceptions.Contains(ex.GetType()))
+                return;
+
+            lock(_lockSync)
+            {
+                _lastException = ex;
+                _state = CircuitBreakerStateEnum.Open;
+                _lastStateChanged = DateTime.UtcNow;
+            }
 
         }
     }

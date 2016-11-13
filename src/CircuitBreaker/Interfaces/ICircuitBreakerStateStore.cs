@@ -10,6 +10,8 @@ namespace CircuitBreaker.Interfaces
 
         DateTime LastStateChangedDateUtc { get; }
 
+        void AddIgnoreExceptions(params Type[] ignoreExceptions);
+
         void Trip(Exception ex);
 
         void Reset();

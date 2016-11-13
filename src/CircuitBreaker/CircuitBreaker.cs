@@ -19,6 +19,11 @@ namespace CircuitBreaker
       _openToHalfOpenWaitTime = openToHalfOpenWaitTime;
     }
 
+    public void AddIgnoreExceptions(params Type[] exceptionTypes)
+    {
+      stateStore.AddIgnoreExceptions(exceptionTypes);
+    }
+
     public TimeSpan OpenToHalfOpenWaitTime
     {
       get
